@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Search,
   Bell,
@@ -36,10 +36,25 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-
+import { prisma } from "@/lib/prisma"
 export default function AdminDashboard() {
   const [activeNav, setActiveNav] = useState("dashboard")
+  const [peminjaman, setPeminjaman] = useState([])
   const router = useRouter()
+
+  useEffect(() => {
+    const fetchPeminjaman = async () => {
+      try {
+        const response = await fetch('/api/peminjaman')
+        const data = await response.json()
+        setPeminjaman(data)
+      } catch (error) {
+        console.error('Error fetching peminjaman:', error)
+      }
+    }
+
+    fetchPeminjaman()
+  }, [])
 
   // Handle logout
   const handleLogout = () => {
