@@ -228,7 +228,7 @@ export default function LoginPage() {
         {/* Footer */}
         <footer className="mt-8 text-center">
           <p className="text-white/70 text-sm">
-            © 2024 Pusbang ASN BKN. All rights reserved.
+            © 2025 PusbangSDM BKN. All rights reserved.
           </p>
         </footer>
       </div>
