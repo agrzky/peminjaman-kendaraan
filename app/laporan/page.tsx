@@ -5,6 +5,8 @@ import { Calendar, Download, FileText, Filter, ChevronDown, Home } from "lucide-
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "sonner"
+import { Menu } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import Link from "next/link"
@@ -22,6 +24,7 @@ export default function LaporanPage() {
   const [bulan, setBulan] = useState<string>(new Date().getMonth().toString())
   const [tahun, setTahun] = useState<string>(new Date().getFullYear().toString())
   const [generatingPdf, setGeneratingPdf] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     fetchPeminjaman()
@@ -181,8 +184,8 @@ export default function LaporanPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 flex">
-      {/* Sidebar */}
-      <div className="w-64 border-r border-gray-200 min-h-screen p-4">
+      {/* Sidebar Desktop */}
+      <div className="hidden md:block w-64 border-r border-gray-200 min-h-screen p-4">
         <div className="flex items-center gap-3 mb-6">
           <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center">
             <FileText className="h-5 w-5 text-white" />
@@ -210,17 +213,56 @@ export default function LaporanPage() {
           </Link>
         </nav>
       </div>
+      {/* Sidebar Mobile (Drawer) */}
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            className="md:hidden fixed top-4 left-4 z-30 p-2 rounded-full bg-white/80 shadow"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu className="h-6 w-6 text-gray-700" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="p-0 w-64">
+          <div className="flex items-center gap-3 mb-6 p-4 border-b">
+            <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center">
+              <FileText className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-xl font-bold">Pusbangpeg ASN</h1>
+          </div>
+          <nav className="space-y-1 p-4">
+            <Link href="/dashboard">
+              <Button variant="ghost" className="w-full justify-start gap-3">
+                <Home className="h-5 w-5" />
+                Dashboard
+              </Button>
+            </Link>
+            <Link href="/peminjaman">
+              <Button variant="ghost" className="w-full justify-start gap-3">
+                <Calendar className="h-5 w-5" />
+                Peminjaman
+              </Button>
+            </Link>
+            <Link href="/laporan">
+              <Button variant="ghost" className="w-full justify-start gap-3">
+                <FileText className="h-5 w-5" />
+                Laporan
+              </Button>
+            </Link>
+          </nav>
+        </SheetContent>
+      </Sheet>
       {/* Main content */}
-      <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-6">Laporan Peminjaman Kendaraan</h1>
-
+      <div className="flex-1 p-4 md:p-6">
+        <h1 className="text-xl md:text-2xl font-bold mb-6">Laporan Peminjaman Kendaraan</h1>
         {/* Filter Controls */}
         <div className="bg-white rounded-lg shadow mb-6 p-4">
-          <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex flex-col md:flex-row flex-wrap gap-4 md:items-center">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Bulan</label>
               <Select value={bulan} onValueChange={setBulan}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[140px] md:w-[180px] text-xs md:text-sm">
                   <SelectValue placeholder="Pilih Bulan" />
                 </SelectTrigger>
                 <SelectContent>
@@ -233,9 +275,9 @@ export default function LaporanPage() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">Tahun</label>
               <Select value={tahun} onValueChange={setTahun}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[140px] md:w-[180px] text-xs md:text-sm">
                   <SelectValue placeholder="Pilih Tahun" />
                 </SelectTrigger>
                 <SelectContent>
@@ -252,13 +294,13 @@ export default function LaporanPage() {
             </div>
             <Button 
               variant="outline" 
-              className="ml-auto mt-auto"
+              className="md:ml-auto mt-2 md:mt-auto"
               onClick={fetchPeminjaman}
             >
               Refresh
             </Button>
             <Button 
-              className="mt-auto flex items-center gap-2"
+              className="mt-2 md:mt-auto flex items-center gap-2"
               onClick={generatePDF}
               disabled={generatingPdf || filteredPeminjaman.length === 0}
             >
@@ -267,54 +309,26 @@ export default function LaporanPage() {
             </Button>
           </div>
         </div>
-
-        {/* Statistics Cards */}
+        {/* Statistik Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
-            <div>
-              <h3 className="text-gray-500 text-sm font-medium">Total Peminjaman</h3>
-              <p className="text-3xl font-bold">{totalPeminjaman}</p>
-            </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <Calendar className="h-6 w-6 text-blue-600" />
-            </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm flex flex-col items-start">
+            <div className="text-xs md:text-sm font-medium text-gray-500">Total</div>
+            <div className="text-2xl md:text-3xl font-bold mt-1">{totalPeminjaman}</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
-            <div>
-              <h3 className="text-gray-500 text-sm font-medium">Disetujui</h3>
-              <p className="text-3xl font-bold">{totalDisetujui}</p>
-            </div>
-            <div className="bg-green-100 p-3 rounded-full">
-              <Calendar className="h-6 w-6 text-green-600" />
-            </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm flex flex-col items-start">
+            <div className="text-xs md:text-sm font-medium text-gray-500">Disetujui</div>
+            <div className="text-2xl md:text-3xl font-bold mt-1">{totalDisetujui}</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
-            <div>
-              <h3 className="text-gray-500 text-sm font-medium">Ditolak</h3>
-              <p className="text-3xl font-bold">{totalDitolak}</p>
-            </div>
-            <div className="bg-red-100 p-3 rounded-full">
-              <Calendar className="h-6 w-6 text-red-600" />
-            </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm flex flex-col items-start">
+            <div className="text-xs md:text-sm font-medium text-gray-500">Ditolak</div>
+            <div className="text-2xl md:text-3xl font-bold mt-1">{totalDitolak}</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4 flex justify-between items-center">
-            <div>
-              <h3 className="text-gray-500 text-sm font-medium">Menunggu</h3>
-              <p className="text-3xl font-bold">{totalMenunggu}</p>
-            </div>
-            <div className="bg-yellow-100 p-3 rounded-full">
-              <Calendar className="h-6 w-6 text-yellow-600" />
-            </div>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 shadow-sm flex flex-col items-start">
+            <div className="text-xs md:text-sm font-medium text-gray-500">Menunggu</div>
+            <div className="text-2xl md:text-3xl font-bold mt-1">{totalMenunggu}</div>
           </div>
         </div>
-
-        <p className="mb-2 text-sm text-gray-600">Klik tombol di bawah untuk mengunduh laporan bulanan dalam format PDF.</p>
-        <Button onClick={generatePDF} disabled={generatingPdf} className="mb-4 flex items-center gap-2">
-          <Download className="h-4 w-4" />
-          {generatingPdf ? 'Mengunduh...' : 'Download PDF'}
-        </Button>
-
-        {/* Peminjaman Table */}
+        {/* Tabel Peminjaman */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {loading ? (
             <div className="p-8 text-center">
@@ -326,39 +340,39 @@ export default function LaporanPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="min-w-full divide-y divide-gray-200 text-xs md:text-sm">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kendaraan</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kendaraan</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tujuan</th>
+                    <th scope="col" className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredPeminjaman.map((item, index) => (
                     <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{item.nama}</div>
-                        <div className="text-sm text-gray-500">{item.handphone || '-'}</div>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">{index + 1}</td>
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
+                        <div className="text-xs md:text-sm font-medium text-gray-900">{item.nama}</div>
+                        <div className="text-xs md:text-sm text-gray-500">{item.handphone || '-'}</div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                         {formatDate(item.startDate)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                         {formatTime(item.startTime)} - {formatTime(item.endTime)}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-500">
                         {getVehicleTypeText(item.vehicleType)}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                      <td className="px-3 md:px-6 py-4 text-xs md:text-sm text-gray-500 max-w-xs truncate">
                         {item.purpose || '-'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                           ${item.status === 'approved' ? 'bg-green-100 text-green-800' : ''}
                           ${item.status === 'rejected' ? 'bg-red-100 text-red-800' : ''}

@@ -55,10 +55,10 @@ export default function PeminjamanKendaraan() {
               />
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-              <span className="text-sm sm:text-base font-semibold text-white">Pusbangpeg ASN</span>
+              <span className="text-sm sm:text-base font-semibold text-white">PusbangSDM</span>
               {/* <span className="text-[10px] sm:text-sm text-white/70 sm:hidden">Sistem Peminjaman</span> */}
               <div className="hidden sm:flex items-center space-x-2">
-                <span className="text-white/50">|</span>
+                <span className="text-white/50"></span>
                 {/* <span className="text-sm text-white/70">Sistem Peminjaman</span> */}
               </div>
             </div>

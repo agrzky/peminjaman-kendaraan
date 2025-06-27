@@ -73,7 +73,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
       {/* Noise texture */}
-      <div className="absolute inset-0 bg-[url('/assets/noise.png')] mix-blend-overlay opacity-25" />
+      {/* <div className="absolute inset-0 bg-[url('/assets/noise.png')] mix-blend-overlay opacity-25" /> */}
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
@@ -83,10 +83,13 @@ export default function LoginPage() {
             <img
               src="/assets/Logo.png"
               alt="Logo"
-              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 brightness-0 invert"
+              className="w-20 h-20 sm:w-20 sm:h-20 md:w-15 md:h-15 brightness-0 invert"
             />
             <span className="text-white font-semibold text-lg sm:text-xl md:text-2xl">
-              Sistem Peminjaman
+              Sistem Peminjaman 
+              <p className="text-white font-semibold text-lg sm:text-xl md:text-2xl">
+                Kendaraan
+              </p>
             </span>
           </div>
 
