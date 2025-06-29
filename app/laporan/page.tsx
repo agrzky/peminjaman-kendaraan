@@ -117,16 +117,16 @@ export default function LaporanPage() {
       doc.addImage(logoBase64, 'PNG', 14, 10, 16, 16); // x, y, width, height
       doc.setFontSize(16);
       doc.setFont('helvetica', 'bold');
-      doc.text("PusbangSDM BKN", 34, 18);
+      doc.text("PusbangSDM BKN", 40, 22);
       
       // Judul
-      doc.setFontSize(14);
+      doc.setFontSize(15);
       doc.setFont('helvetica', 'normal');
       doc.text(`Laporan Peminjaman Kendaraan - ${getNamaBulan(bulan)} ${tahun}`, 14, 38);
       
       // Statistik
-      doc.setFontSize(11);
-      let statY = 38;
+      doc.setFontSize(12);
+      let statY = 46;
       doc.text(`Total Peminjaman: ${totalPeminjaman}`, 14, statY);
       doc.text(`Disetujui: ${totalDisetujui}`, 14, statY + 6);
       doc.text(`Ditolak: ${totalDitolak}`, 14, statY + 12);
@@ -147,9 +147,9 @@ export default function LaporanPage() {
       autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
-        startY: 54,
+        startY: 60,
         theme: 'grid',
-        styles: { font: 'helvetica', fontSize: 8, cellPadding: 1.2 },
+        styles: { fontSize: 8, cellPadding: 2 },
         headStyles: { fillColor: [75, 75, 250], textColor: 255 },
         alternateRowStyles: { fillColor: [240, 240, 255] }
       })
@@ -158,16 +158,16 @@ export default function LaporanPage() {
       const pageCount = doc.getNumberOfPages()
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i)
-        doc.setFontSize(7)
+        doc.setFontSize(8)
         doc.text(
           `Dicetak pada: ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID')}`,
           14,
-          doc.internal.pageSize.height - 8
+          doc.internal.pageSize.height - 10
         )
         doc.text(
           `Halaman ${i} dari ${pageCount}`,
           doc.internal.pageSize.width - 30,
-          doc.internal.pageSize.height - 8
+          doc.internal.pageSize.height - 10
         )
       }
       
