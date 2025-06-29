@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Car, Bike, Truck, Ambulance, Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react"
@@ -71,83 +70,64 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
-      {/* Noise texture */}
-      {/* <div className="absolute inset-0 bg-[url('/assets/noise.png')] mix-blend-overlay opacity-25" /> */}
-
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col items-center justify-center min-h-screen">
+    <main className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 flex items-center justify-center p-4">
+      <div className="relative z-10 w-full max-w-md mx-auto">
         {/* Logo and Vehicle Icons */}
-        <div className="w-full max-w-md mx-auto mb-8 flex flex-col items-center">
-          <div className="flex items-center gap-2 mb-6">
-            <img
-              src="/assets/Logo.png"
-              alt="Logo"
-              className="w-20 h-20 sm:w-20 sm:h-20 md:w-15 md:h-15 brightness-0 invert"
-            />
-            <span className="text-white font-semibold text-lg sm:text-xl md:text-2xl">
-              Sistem Peminjaman 
-              <p className="text-white font-semibold text-lg sm:text-xl md:text-2xl">
-                Kendaraan
-              </p>
-            </span>
-          </div>
+        <div className="mb-6 flex flex-col items-center text-center">
+            <Link href="/" className="flex items-center gap-3 mb-6 text-white hover:opacity-90 transition-opacity">
+                <img
+                    src="/assets/Logo.png"
+                    alt="Logo"
+                    className="w-16 h-16 brightness-0 invert"
+                />
+                <div>
+                    <span className="block font-semibold text-xl">Sistem Peminjaman</span>
+                    <span className="block font-semibold text-xl">Kendaraan</span>
+                </div>
+            </Link>
 
           <div className="grid grid-cols-4 gap-4 w-full max-w-xs mx-auto">
-            <div className="flex flex-col items-center gap-2">
-              <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-md rounded-xl hover:bg-white/20 transition-all cursor-pointer border border-white/20">
-                <Car className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              </div>
-              <span className="text-white/70 text-xs sm:text-sm">Mobil</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-md rounded-xl hover:bg-white/20 transition-all cursor-pointer border border-white/20">
-                <Bike className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              </div>
-              <span className="text-white/70 text-xs sm:text-sm">Motor</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-md rounded-xl hover:bg-white/20 transition-all cursor-pointer border border-white/20">
-                <Truck className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              </div>
-              <span className="text-white/70 text-xs sm:text-sm">Pickup</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="p-3 sm:p-4 bg-white/10 backdrop-blur-md rounded-xl hover:bg-white/20 transition-all cursor-pointer border border-white/20">
-                <Ambulance className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-              </div>
-              <span className="text-white/70 text-xs sm:text-sm">Ambulan</span>
-            </div>
+            {[
+                { Icon: Car, label: "Mobil" },
+                { Icon: Bike, label: "Motor" },
+                { Icon: Truck, label: "Pickup" },
+                { Icon: Ambulance, label: "Ambulan" }
+            ].map(({ Icon, label }) => (
+                <div key={label} className="flex flex-col items-center gap-2">
+                    <div className="p-3 bg-white/10 backdrop-blur-md rounded-xl hover:bg-white/20 transition-all cursor-pointer border border-white/20">
+                        <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <span className="text-white/70 text-xs">{label}</span>
+                </div>
+            ))}
           </div>
         </div>
 
         {/* Login Form */}
-        <div className="w-full max-w-md mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 border border-white/20">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl p-6 sm:p-8 border border-white/20">
           <div className="text-center mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-purple-800 bg-clip-text text-transparent">
               Selamat Datang
             </h1>
-            <p className="text-gray-600 mt-3 font-medium">
+            <p className="text-gray-600 mt-2 font-medium">
               Silakan masuk untuk melanjutkan
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-gray-700 font-semibold text-sm sm:text-base">
+              <Label htmlFor="email" className="text-gray-700 font-semibold">
                 Email
               </Label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <User className="h-[18px] w-[18px] text-gray-500" />
-                </div>
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   id="email"
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="pl-10 bg-gray-50/80 border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-lg placeholder:text-gray-400"
+                  className="pl-10 h-11 bg-gray-50/80 border-gray-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg placeholder:text-gray-400"
                   placeholder="Masukkan email"
                   required
                 />
@@ -155,20 +135,18 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-gray-700 font-semibold text-sm sm:text-base">
+              <Label htmlFor="password" className="text-gray-700 font-semibold">
                 Password
               </Label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <Lock className="h-[18px] w-[18px] text-gray-500" />
-                </div>
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10 pr-10 bg-gray-50/80 border border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-lg placeholder:text-gray-400"
+                  className="pl-10 pr-10 h-11 bg-gray-50/80 border-gray-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg placeholder:text-gray-400"
                   placeholder="Masukkan password"
                   required
                 />
@@ -176,59 +154,64 @@ export default function LoginPage() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700 transition-colors"
+                  aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-[18px] w-[18px]" />
+                    <EyeOff className="h-5 w-5" />
                   ) : (
-                    <Eye className="h-[18px] w-[18px]" />
+                    <Eye className="h-5 w-5" />
                   )}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center">
-              <Checkbox
-                id="rememberMe"
-                checked={formData.rememberMe}
-                onCheckedChange={handleCheckboxChange}
-                className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-2 focus:ring-purple-500/20"
-              />
-              <Label
-                htmlFor="rememberMe"
-                className="ml-2 text-gray-600 font-medium text-sm sm:text-base select-none"
-              >
-                Ingat saya
-              </Label>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                    <Checkbox
+                        id="rememberMe"
+                        checked={formData.rememberMe}
+                        onCheckedChange={handleCheckboxChange}
+                        className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500/20"
+                    />
+                    <Label
+                        htmlFor="rememberMe"
+                        className="ml-2 text-gray-600 font-medium select-none cursor-pointer"
+                    >
+                        Ingat saya
+                    </Label>
+                </div>
             </div>
 
             {error && (
-              <div className="p-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg">
+              <div className="p-3 text-sm text-center text-red-700 bg-red-100 border border-red-200 rounded-lg">
                 {error}
               </div>
             )}
+            
+            <div className="pt-2 space-y-3">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-purple-800 hover:from-blue-700 hover:via-purple-700 hover:to-purple-900 text-white font-semibold py-3 text-base rounded-lg transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {loading ? "Memproses..." : "Masuk"}
+                </Button>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-purple-800 hover:from-blue-700 hover:via-purple-700 hover:to-purple-900 text-white font-semibold py-2.5 text-sm sm:text-base rounded-lg transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {loading ? "Memproses..." : "Masuk"}
-            </Button>
-
-            <Link
-              href="/"
-              className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50/50 rounded-lg transition-colors text-sm sm:text-base font-medium"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Kembali ke Halaman Utama
-            </Link>
+                <Link
+                  href="/"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50/50 rounded-lg transition-colors text-sm sm:text-base font-medium"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Kembali ke Halaman Utama
+                </Link>
+            </div>
           </form>
         </div>
 
         {/* Footer */}
-        <footer className="mt-8 text-center">
+        <footer className="mt-6 text-center">
           <p className="text-white/70 text-sm">
-            © 2025 PusbangSDM BKN. All rights reserved.
+            © {new Date().getFullYear()} PusbangSDM BKN. All rights reserved.
           </p>
         </footer>
       </div>
