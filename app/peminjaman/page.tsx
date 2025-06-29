@@ -142,7 +142,7 @@ export default function PeminjamanPage() {
           <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center">
             <Calendar className="h-5 w-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold">Pusbangpeg ASN</h1>
+          <h1 className="text-xl font-bold">PusbangSDM BKN</h1>
         </div>
         <nav className="space-y-1">
           <Link href="/dashboard">
@@ -181,7 +181,7 @@ export default function PeminjamanPage() {
             <div className="h-10 w-10 rounded-full bg-purple-600 flex items-center justify-center">
               <Calendar className="h-5 w-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold">Pusbangpeg ASN</h1>
+            <h1 className="text-xl font-bold">PusbangSDM BKN</h1>
           </div>
           <nav className="space-y-1 p-4">
             <Link href="/dashboard">
