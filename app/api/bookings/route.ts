@@ -1,21 +1,36 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-/**
- * Mengirim notifikasi WhatsApp menggunakan API Fonnte.
- * @param data - Objek yang berisi detail peminjaman.
- */
+// Helper function untuk mendapatkan nama kendaraan yang benar
+function getVehicleTypeText(type: string): string {
+  switch (type) {
+    case 'car':
+      return 'Mobil';
+    case 'motorcycle':
+      return 'Motor';
+    case 'pickup':
+      return 'Pickup';
+    case 'ambulance':
+      return 'Ambulans';
+    default:
+      // Fallback untuk nilai yang tidak terduga, mengubah huruf pertama menjadi kapital
+      return type.charAt(0).toUpperCase() + type.slice(1);
+  }
+}
+
 async function sendWhatsAppNotification(data: any) {
   const { name, vehicleType, startDate, startTime, purpose } = data;
 
-  // Format pesan notifikasi
+  // Menggunakan helper function untuk mendapatkan nama kendaraan
+  const vehicleName = getVehicleTypeText(vehicleType);
+
   const message = `
 *Pemberitahuan Peminjaman Baru*
 
 Telah masuk pengajuan peminjaman kendaraan baru dengan detail sebagai berikut:
 
 - *Nama:* ${name}
-- *Kendaraan:* ${vehicleType === 'motorcycle' ? 'Motor' : vehicleType.charAt(0).toUpperCase() + vehicleType.slice(1)}
+- *Kendaraan:* ${vehicleName}
 - *Tanggal:* ${new Date(startDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
 - *Waktu:* ${startTime}
 - *Tujuan:* ${purpose}
@@ -28,22 +43,21 @@ Terima kasih.
   const apiToken = process.env.FONNTE_API_TOKEN;
 
   if (!targetNumber || !apiToken) {
-    console.error("Variabel lingkungan FONNTE_API_TOKEN atau WHATSAPP_ADMIN_NUMBER tidak diatur.");
-    return; // Keluar dari fungsi jika konfigurasi tidak ada
+    console.error("Variabel lingkungan WhatsApp tidak diatur.");
+    return;
   }
 
   try {
-    // Mengirim request ke API Fonnte
     const response = await fetch('https://api.fonnte.com/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': apiToken // Sesuai dokumentasi Fonnte
+        'Authorization': apiToken
       },
       body: JSON.stringify({
         target: targetNumber,
         message: message,
-        countryCode: '62', // Opsional, untuk memastikan format nomor benar
+        countryCode: '62',
       }),
     });
 
@@ -57,9 +71,9 @@ Terima kasih.
 
   } catch (error) {
     console.error("Terjadi kesalahan saat mengirim notifikasi WhatsApp:", error);
-    // Proses utama tetap berjalan meskipun notifikasi gagal
   }
 }
+
 
 export const dynamic = 'force-dynamic'
 
@@ -78,7 +92,6 @@ export async function POST(req: Request) {
       purpose
     } = body
 
-    // Create peminjaman
     const peminjaman = await prisma.peminjaman.create({
       data: {
         nama: name,
@@ -86,21 +99,20 @@ export async function POST(req: Request) {
         vehicleType,
         driver: driverId,
         startDate: new Date(startDate),
-        startTime: startTime,
+        startTime,
         endDate: new Date(endDate),
-        endTime: endTime,
+        endTime,
         purpose
       }
     })
 
-    // Kirim notifikasi WhatsApp
     sendWhatsAppNotification({ name, vehicleType, startDate, startTime, purpose });
 
     return NextResponse.json(peminjaman)
   } catch (error) {
-    console.error('Error creating peminjaman:', error)
+    console.error('Error saat membuat peminjaman:', error)
     return NextResponse.json(
-      { error: 'Gagal membuat peminjaman' },
+      { error: 'Gagal membuat data peminjaman' },
       { status: 500 }
     )
   }
