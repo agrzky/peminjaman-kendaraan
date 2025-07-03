@@ -114,7 +114,19 @@ export default function PeminjamanKendaraan() {
                     </span>
                 </h1>
                 <div className="grid grid-cols-4 gap-4 max-w-sm mx-auto mt-8 sm:mt-10">
-                    {/* Icons */}
+                    {[
+                       { icon: Car, label: "Mobil" },
+                      { icon: Bike, label: "Motor" },
+                      { icon: Truck, label: "Pickup" },
+                      { icon: Ambulance, label: "Ambulans" }
+                    ].map(({ icon: Icon, label }) => (
+                      <div key={label} className="flex flex-col items-center gap-2">
+                        <div className="p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all backdrop-blur-sm group">
+                          <Icon className="w-6 h-6 text-white/90 group-hover:text-white" />
+                        </div>
+                        <span className="text-xs text-white/70">{label}</span>
+                      </div>
+                    ))}
                 </div>
             </div>
         </div>
