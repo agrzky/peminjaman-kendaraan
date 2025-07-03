@@ -43,7 +43,7 @@ export default function PeminjamanKendaraan() {
     // Validasi sederhana
     for (const key in formData) {
         if (formData[key as keyof typeof formData] === "") {
-            toast.error(`Harap isi semua kolom, termasuk "${key}".`);
+            toast.error(`Harap isi semua kolom`);
             setLoading(false);
             return;
         }
@@ -74,12 +74,12 @@ export default function PeminjamanKendaraan() {
         throw new Error(errorData.error || 'Gagal mengajukan peminjaman');
       }
 
-      toast.success('Data peminjaman berhasil dikirim! Halaman akan dimuat ulang.');
+      toast.success('Data peminjaman berhasil dikirim!');
       
       // Reset form setelah berhasil
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 1000);
 
     } catch (error: any) {
       console.error('Error submitting booking:', error);

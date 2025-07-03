@@ -86,9 +86,9 @@ export async function POST(req: Request) {
         vehicleType,
         driver: driverId,
         startDate: new Date(startDate),
-        startTime: new Date(`1970-01-01T${startTime}:00`),
+        startTime: startTime,
         endDate: new Date(endDate),
-        endTime: new Date(`1970-01-01T${endTime}:00`),
+        endTime: endTime,
         purpose
       }
     })

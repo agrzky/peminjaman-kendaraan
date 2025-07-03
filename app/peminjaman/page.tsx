@@ -120,14 +120,14 @@ export default function PeminjamanPage() {
   }
 
   // Format time from ISO string
-  const formatTime = (timeString: string) => {
-    const time = new Date(timeString)
-    return time.toLocaleTimeString('id-ID', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    })
-  }
+  // const formatTime = (timeString: string) => {
+  //   const time = new Date(timeString)
+  //   return time.toLocaleTimeString('id-ID', {
+  //     hour: '2-digit',
+  //     minute: '2-digit',
+  //     hour12: false
+  //   })
+  // }
 
   // Filter peminjaman based on status
   const filteredPeminjaman = filter === 'all' 
@@ -300,7 +300,7 @@ export default function PeminjamanPage() {
                       <div>
                         <div className="font-medium">{item.nama}</div>
                         <div className="text-sm text-gray-500">
-                          {formatDate(item.startDate)} • {formatTime(item.startTime)} - {formatTime(item.endTime)}
+                          {formatDate(item.startDate)} • {item.startTime} - {item.endTime}
                         </div>
                         <div className="text-sm mt-1">
                           <span className="font-medium">Kontak:</span> {item.handphone || '-'}
@@ -356,7 +356,7 @@ export default function PeminjamanPage() {
                       <div>
                         <div className="font-medium">{item.nama}</div>
                         <div className="text-sm text-gray-500">
-                          {formatDate(item.startDate)} • {formatTime(item.startTime)} - {formatTime(item.endTime)}
+                          {formatDate(item.startDate)} • {item.startTime} - {item.endTime}
                         </div>
                         <div className="text-sm mt-1">
                           <span className="font-medium">{item.vehicleType}:</span> {item.purpose}
@@ -388,7 +388,7 @@ export default function PeminjamanPage() {
                       <div>
                         <div className="font-medium">{item.nama}</div>
                         <div className="text-sm text-gray-500">
-                          {formatDate(item.startDate)} • {formatTime(item.startTime)} - {formatTime(item.endTime)}
+                          {formatDate(item.startDate)} • {item.startTime} - {item.endTime}
                         </div>
                         <div className="text-sm mt-1">
                           <span className="font-medium">{item.vehicleType}:</span> {item.purpose}

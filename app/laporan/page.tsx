@@ -114,7 +114,7 @@ export default function LaporanPage() {
         index + 1,
         item.nama,
         formatDate(item.startDate),
-        `${formatTime(item.startTime)} - ${formatTime(item.endTime)}`,
+        `${item.startTime} - ${item.endTime}`,
         getVehicleTypeText(item.vehicleType),
         item.purpose || '-',
         getStatusText(item.status)
