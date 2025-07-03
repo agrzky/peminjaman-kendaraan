@@ -119,16 +119,6 @@ export default function PeminjamanPage() {
     })
   }
 
-  // Format time from ISO string
-  // const formatTime = (timeString: string) => {
-  //   const time = new Date(timeString)
-  //   return time.toLocaleTimeString('id-ID', {
-  //     hour: '2-digit',
-  //     minute: '2-digit',
-  //     hour12: false
-  //   })
-  // }
-
   // Filter peminjaman based on status
   const filteredPeminjaman = filter === 'all' 
     ? peminjaman 

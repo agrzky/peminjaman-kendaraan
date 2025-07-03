@@ -282,7 +282,7 @@ export default function LaporanPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <div>{formatDate(item.startDate)}</div>
-                            <div className="text-xs">{`${formatTime(item.startTime)} - ${formatTime(item.endTime)}`}</div>
+                            <div className="text-xs">{`${item.startTime} - ${item.endTime}`}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">{getVehicleTypeText(item.vehicleType)}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
