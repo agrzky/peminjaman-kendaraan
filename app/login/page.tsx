@@ -74,15 +74,15 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md mx-auto">
         {/* Logo and Vehicle Icons */}
         <div className="mb-6 flex flex-col items-center text-center">
-            <Link href="/" className="flex items-center gap-3 mb-6 text-white hover:opacity-90 transition-opacity">
+            <Link href="/" className="flex items-center gap-4 mb-6 text-white hover:opacity-90 transition-opacity">
                 <img
                     src="/assets/Logo.png"
                     alt="Logo"
-                    className="w-16 h-16 brightness-0 invert"
+                    className="w-12 h-12 brightness-0 invert"
                 />
                 <div>
-                    <span className="block font-semibold text-xl">Sistem Peminjaman</span>
-                    <span className="block font-semibold text-xl">Kendaraan</span>
+                    <span className="block font-semibold text-lg">Sistem Peminjaman</span>
+                    <span className="block font-semibold text-lg">Kendaraan</span>
                 </div>
             </Link>
 
