@@ -123,7 +123,7 @@ export default function PeminjamanPage() {
   const filteredPeminjaman = (filter === 'all' 
     ? peminjaman 
     : peminjaman.filter(item => item.status === filter)
-  ).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+  ).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 flex">
