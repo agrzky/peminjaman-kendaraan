@@ -46,7 +46,7 @@ export default function LaporanPage() {
   const filteredPeminjaman = peminjaman.filter(item => {
     const date = new Date(item.startDate)
     return date.getMonth() === parseInt(bulan) && date.getFullYear() === parseInt(tahun)
-  })
+  }).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
 
   const totalPeminjaman = filteredPeminjaman.length
   const totalDisetujui = filteredPeminjaman.filter(item => item.status === 'approved').length

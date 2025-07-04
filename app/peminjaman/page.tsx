@@ -120,9 +120,10 @@ export default function PeminjamanPage() {
   }
 
   // Filter peminjaman based on status
-  const filteredPeminjaman = filter === 'all' 
+  const filteredPeminjaman = (filter === 'all' 
     ? peminjaman 
     : peminjaman.filter(item => item.status === filter)
+  ).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 flex">
@@ -368,7 +369,7 @@ export default function PeminjamanPage() {
           </TabsContent>
           <TabsContent value="recent">
             <div className="space-y-4">
-              {[...peminjaman].sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))).slice(0, 10).map((item) => (
+              {[...peminjaman].sort((a, b) => new Date(b.createdAt).getTime() - new Date(b.startDate).getTime()).slice(0, 10).map((item) => (
                 <div key={item.id} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-start gap-3">
