@@ -110,7 +110,7 @@ export default function PeminjamanKendaraan() {
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
                     <span className="block mb-2 text-white/90">Selamat Datang di</span>
                     <span className="block font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-white">
-                        Sistem Peminjaman Kendaraan
+                        Aplikasi Minjam Kendaraan
                     </span>
                 </h1>
                 <div className="grid grid-cols-4 gap-4 max-w-sm mx-auto mt-8 sm:mt-10">
@@ -167,7 +167,7 @@ export default function PeminjamanKendaraan() {
                 <SelectTrigger className="h-11 text-base"><SelectValue placeholder="Pilih driver"/></SelectTrigger>
                 <SelectContent>
                     <SelectItem value="Setio"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Setio</div></SelectItem>
-                    <SelectItem value="Akhid"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Akhid</div></SelectItem>
+                    <SelectItem value="Akhid"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Denih</div></SelectItem>
                     <SelectItem value="Membawa Sendiri"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Membawa Sendiri</div></SelectItem>
                 </SelectContent>
               </Select>
