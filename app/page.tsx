@@ -167,7 +167,7 @@ export default function PeminjamanKendaraan() {
                 <SelectTrigger className="h-11 text-base"><SelectValue placeholder="Pilih driver"/></SelectTrigger>
                 <SelectContent>
                     <SelectItem value="Setio"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Setio</div></SelectItem>
-                    <SelectItem value="Akhid"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Denih</div></SelectItem>
+                    <SelectItem value="Denih"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Denih</div></SelectItem>
                     <SelectItem value="Membawa Sendiri"><div className="flex items-center"><User className="w-5 h-5 mr-2" />Membawa Sendiri</div></SelectItem>
                 </SelectContent>
               </Select>

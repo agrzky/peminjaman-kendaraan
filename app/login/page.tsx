@@ -81,7 +81,7 @@ export default function LoginPage() {
                     className="w-12 h-12 brightness-0 invert"
                 />
                 <div>
-                    <span className="block font-semibold text-lg">Sistem Peminjaman</span>
+                    <span className="block font-semibold text-lg">Aplikasi Minjam</span>
                     <span className="block font-semibold text-lg">Kendaraan</span>
                 </div>
             </Link>
