@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Calendar, Clock, CheckCircle, XCircle, Filter, Car, Bike, Truck, Ambulance, Home, FileText, Menu } from "lucide-react"
+import { Calendar, Clock, CheckCircle, XCircle, Filter, Car, Bike, Truck, Ambulance, Home, FileText, Menu, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
@@ -295,6 +295,10 @@ export default function PeminjamanPage() {
                         </div>
                         <div className="text-sm mt-1">
                           <span className="font-medium">Kontak:</span> {item.handphone || '-'}
+                        </div>
+                        <div className="text-sm mt-1 flex items-center gap-1.5">
+                          <User className="h-4 w-4 text-gray-500" />
+                          <span className="font-medium">Driver:</span> {item.driver || 'Membawa Sendiri'}
                         </div>
                         <div className="text-sm text-gray-600 mt-1">{item.purpose || 'Tidak ada keterangan'}</div>
                       </div>
