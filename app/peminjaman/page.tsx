@@ -14,6 +14,8 @@ export default function PeminjamanPage() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<string>("all")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
 
   useEffect(() => {
     fetchPeminjaman()
@@ -61,7 +63,7 @@ export default function PeminjamanPage() {
   const disetujuiHariIni = peminjaman.filter((item) => {
     const today = new Date()
     const itemDate = new Date(item.startDate)
-    return item.status === 'approved' && 
+    return item.status === 'approved' &&
            itemDate.getDate() === today.getDate() &&
            itemDate.getMonth() === today.getMonth() &&
            itemDate.getFullYear() === today.getFullYear()
@@ -120,10 +122,18 @@ export default function PeminjamanPage() {
   }
 
   // Filter peminjaman based on status
-  const filteredPeminjaman = (filter === 'all' 
-    ? peminjaman 
+  const filteredPeminjaman = (filter === 'all'
+    ? peminjaman
     : peminjaman.filter(item => item.status === filter)
   ).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredPeminjaman.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredPeminjaman.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 flex">
@@ -232,36 +242,36 @@ export default function PeminjamanPage() {
         {/* Filter Controls */}
         <div className="bg-white rounded-lg shadow mb-6 p-4">
           <div className="flex flex-wrap gap-2">
-            <Button 
+            <Button
               variant={filter === 'all' ? "default" : "outline"}
               onClick={() => setFilter('all')}
               className="flex items-center gap-2"
             >
               Semua
             </Button>
-            <Button 
+            <Button
               variant={filter === 'pending' ? "default" : "outline"}
               onClick={() => setFilter('pending')}
               className="flex items-center gap-2"
             >
               <Clock className="h-4 w-4" /> Menunggu
             </Button>
-            <Button 
+            <Button
               variant={filter === 'approved' ? "default" : "outline"}
               onClick={() => setFilter('approved')}
               className="flex items-center gap-2"
             >
               <CheckCircle className="h-4 w-4" /> Disetujui
             </Button>
-            <Button 
+            <Button
               variant={filter === 'rejected' ? "default" : "outline"}
               onClick={() => setFilter('rejected')}
               className="flex items-center gap-2"
             >
               <XCircle className="h-4 w-4" /> Ditolak
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="ml-auto"
               onClick={fetchPeminjaman}
             >
@@ -275,13 +285,13 @@ export default function PeminjamanPage() {
             <div className="p-8 text-center">
               <p>Memuat data peminjaman...</p>
             </div>
-          ) : filteredPeminjaman.length === 0 ? (
+          ) : currentItems.length === 0 ? (
             <div className="p-8 text-center">
               <p>Tidak ada data peminjaman {filter !== 'all' && `dengan status ${filter}`}</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
-              {filteredPeminjaman.map((item) => (
+              {currentItems.map((item) => (
                 <div key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-start gap-3">
@@ -315,8 +325,8 @@ export default function PeminjamanPage() {
                           >
                             Tolak
                           </Button>
-                          <Button 
-                            size="sm" 
+                          <Button
+                            size="sm"
                             className="bg-green-600 hover:bg-green-700 text-white"
                             onClick={() => handleStatusUpdate(item.id, 'approved')}
                           >
@@ -328,6 +338,26 @@ export default function PeminjamanPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="p-4 flex justify-between items-center">
+              <Button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <Button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
             </div>
           )}
         </div>
