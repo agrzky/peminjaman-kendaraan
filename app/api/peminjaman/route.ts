@@ -5,15 +5,11 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
-    console.log('Fetching peminjaman data...')
-    
     const peminjaman = await prisma.peminjaman.findMany({
       orderBy: {
         createdAt: 'desc'
       }
     })
-    
-    console.log(`Found ${peminjaman.length} peminjaman records`)
     
     // Set headers untuk mencegah caching
     const response = NextResponse.json(peminjaman)

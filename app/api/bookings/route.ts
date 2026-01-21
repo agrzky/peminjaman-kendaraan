@@ -66,8 +66,7 @@ Terima kasih.
       throw new Error(`Gagal mengirim notifikasi via Fonnte: ${JSON.stringify(errorData)}`);
     }
     
-    const result = await response.json();
-    console.log("Notifikasi WhatsApp berhasil dikirim:", result);
+    await response.json();
 
   } catch (error) {
     console.error("Terjadi kesalahan saat mengirim notifikasi WhatsApp:", error);
